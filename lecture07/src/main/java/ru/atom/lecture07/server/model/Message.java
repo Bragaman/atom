@@ -1,22 +1,24 @@
 package ru.atom.lecture07.server.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "message", schema = "chat")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne()
+//    @Column(name = "user_id", nullable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private User user;
 
+    @Column(name = "time", nullable = false)
     private Date time = new Date();
 
+    @Column(name = "value", nullable = false, length = 140)
     private String value;
 
     public User getUser() {

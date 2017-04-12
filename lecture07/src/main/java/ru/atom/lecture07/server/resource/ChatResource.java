@@ -89,4 +89,24 @@ public class ChatResource {
     }
 
     //TODO implement logout here from scratch
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/logout")
+    public Response logout(@QueryParam("name") String name) {
+        if (name.length() < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too short name, sorry :(").build();
+        }
+        if (name.length() > 20) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
+        }
+        if (name.toLowerCase().contains("hitler")) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
+        }
+        try {
+            chatService.logout(name);
+        } catch (ChatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Already logouted").build();
+        }
+        return Response.ok().build();
+    }
 }
